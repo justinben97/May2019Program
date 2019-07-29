@@ -4,7 +4,10 @@ package com.mastek.training.hrapp.apis;
 
 import java.util.List;
 
-
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,6 +29,7 @@ import com.mastek.training.hrapp.repositories.ProjectRepository;
 
 @Scope("singleton")
 
+@Path("/projects/")
 public class ProjectService {
 
 	
@@ -41,7 +45,13 @@ public class ProjectService {
 		System.out.println("Project Service Created");
 
 	}
-
+	@GET
+	@Path("/list/")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Iterable<Project> getAllProjects(){
+		return projectRepository.findAll();
+		
+	}
 	
 
 	public Project registerOrUpdateProject(Project proj) {

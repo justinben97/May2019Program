@@ -59,6 +59,15 @@ public class DepartmentService {
 	}
 	
 	
+	@GET
+	@Path("/list")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Iterable<Department> listAllDepartments(){
+		
+		return departmentRepository.findAll();
+	}
+	
+	
 	
 	@Path("/find/{deptno}")
 	@GET //HTTP Method used to call the api

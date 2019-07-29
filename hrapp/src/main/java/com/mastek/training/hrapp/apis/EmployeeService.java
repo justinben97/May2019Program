@@ -57,10 +57,21 @@ public class EmployeeService {
 	@Path("/register")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Transactional
 	public Employee registerOrUpdateEmployee(
 			@BeanParam Employee emp) {
+		Employee currentEmp = findByEmpno(emp.getEmpno());
+		if(currentEmp!=null) {
+			
+			currentEmp.setName(emp.getName());
+			currentEmp.setSalary(emp.getSalary());
+			emp= employeeRepository.save(currentEmp);
+			
+		}
+		else {
 			
 		emp = employeeRepository.save(emp);
+		}
 		System.out.println("Employee Registered"+emp);
 		// TODO Auto-generated method stub
 		return emp;
@@ -75,12 +86,16 @@ public class EmployeeService {
 		MediaType.APPLICATION_XML //object to be given in XML
 		
 	})
+	@Transactional
 	public Employee findByEmpno(
 			//Use the pathe parameter as the argument for the method
 			@PathParam(value = "empno") int empno) {
 		// fetches the Employee details from DB by empno
 		try {
-			return employeeRepository.findById(empno).get();
+			Employee emp=employeeRepository.findById(empno).get();
+			System.out.println(emp.getAssignments().size()+"Assignments fetched");
+			
+			return emp;
 			
 		} catch (Exception e) {
 			// TODO: handle exception

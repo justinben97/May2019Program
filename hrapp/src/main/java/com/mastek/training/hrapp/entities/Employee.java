@@ -45,6 +45,7 @@ import org.springframework.stereotype.Component;
 public class Employee implements Serializable{
 	
 	@Value("-1")
+	@FormParam("empno")
 	private int empno;
 	
 	@Value("Default value")
@@ -69,7 +70,7 @@ public class Employee implements Serializable{
 			inverseJoinColumns=@JoinColumn(name= "FK_PROJECTID")
 			
 	)
-	@XmlTransient //igone the collections while using api
+//	@XmlTransient //igone the collections while using api
 	public Set<Project> getAssignments() {
 		return assignments;
 	}
